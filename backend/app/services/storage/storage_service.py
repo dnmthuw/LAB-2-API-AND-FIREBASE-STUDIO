@@ -24,26 +24,34 @@ def _generate_id(prefix: str) -> str:
 
 # ── Project CRUD ─────────────────────────────────────────────────────────────
 
-def get_all_projects() -> List[dict]:
+def get_all_projects(user_id: str = None) -> List[dict]:
     try:
-        docs = db.collection("projects").stream()
+        if user_id:
+            docs = db.collection("projects").where("user_id", "==", user_id).stream()
+        else:
+            docs = db.collection("projects").stream()
         return [doc.to_dict() for doc in docs]
     except Exception as e:
         logger.error(f"Firestore error: {e}")
         return []
 
-def get_project(project_id: str) -> Optional[dict]:
+def get_project(project_id: str, user_id: str = None) -> Optional[dict]:
     doc = db.collection("projects").document(project_id).get()
     if doc.exists:
         proj = doc.to_dict()
+        if user_id and proj.get("user_id") != user_id:
+            return None
         if "sources" not in proj: proj["sources"] = []
         if "conversations" not in proj: proj["conversations"] = {}
         return proj
     return None
 
-def create_project(name: str, description: str = "") -> dict:
+def create_project(name: str, description: str = "", user_id: str = None) -> dict:
     # Check for duplicate names
-    existing = db.collection("projects").where("name", "==", name).limit(1).get()
+    query = db.collection("projects").where("name", "==", name)
+    if user_id:
+        query = query.where("user_id", "==", user_id)
+    existing = query.limit(1).get()
     if existing:
         raise ValueError(f"Project with name '{name}' already exists.")
 
@@ -52,15 +60,23 @@ def create_project(name: str, description: str = "") -> dict:
         "id": pid, "name": name, "description": description,
         "created_at": _now_iso(), "sources": [], "conversations": {},
     }
+    if user_id:
+        project["user_id"] = user_id
     db.collection("projects").document(pid).set(project)
     return project
 
-def update_project(project_id: str, name: Optional[str] = None, description: Optional[str] = None) -> Optional[dict]:
+def update_project(project_id: str, name: Optional[str] = None, description: Optional[str] = None, user_id: str = None) -> Optional[dict]:
     proj_ref = db.collection("projects").document(project_id)
+    doc = proj_ref.get()
+    if not doc.exists or (user_id and doc.to_dict().get("user_id") != user_id):
+        return None
+        
     updates = {}
     if name is not None:
-        # Check for duplicate names if name is changing
-        existing = db.collection("projects").where("name", "==", name).limit(1).get()
+        query = db.collection("projects").where("name", "==", name)
+        if user_id:
+            query = query.where("user_id", "==", user_id)
+        existing = query.limit(1).get()
         if existing and existing[0].id != project_id:
             raise ValueError(f"Project with name '{name}' already exists.")
         updates["name"] = name
@@ -68,11 +84,15 @@ def update_project(project_id: str, name: Optional[str] = None, description: Opt
         updates["description"] = description
     if updates:
         proj_ref.update(updates)
-    return get_project(project_id)
+    return get_project(project_id, user_id)
 
-def delete_project(project_id: str) -> bool:
+def delete_project(project_id: str, user_id: str = None) -> bool:
     try:
-        db.collection("projects").document(project_id).delete()
+        proj_ref = db.collection("projects").document(project_id)
+        doc = proj_ref.get()
+        if not doc.exists or (user_id and doc.to_dict().get("user_id") != user_id):
+            return False
+        proj_ref.delete()
         return True
     except Exception: return False
 

@@ -245,6 +245,7 @@ Hệ thống sử dụng mô hình dữ liệu NoSQL phân cấp (Hierarchical D
 Firestore 
 ├── projects 
 │   └── {project_id} 
+│       ├── user_id: string (Firebase Auth UID)
 │       ├── name: string
 │       ├── description: string
 │       ├── created_at: string 
@@ -274,4 +275,4 @@ Firestore
 
 ## 11. Video Demo
 
-
+Xem *[Video Demo Lab 2](https://www.youtube.com/watch?v=4zV947CgUe8)* để có cái nhìn tổng quan về dự án!

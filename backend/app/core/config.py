@@ -5,6 +5,7 @@ import os
 class Settings(BaseSettings):
     # ── AI Model ──────────────────────────────────────────────────────────────
     MODEL_NAME: str = "deepset/xlm-roberta-base-squad2"
+    ST_MODEL_NAME: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
     MAX_SEQ_LENGTH: int = 512
 
     # ── Storage ───────────────────────────────────────────────────────────────
