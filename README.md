@@ -273,6 +273,20 @@ Firestore
 - **Metadata vs Data**: Các thông tin tóm tắt (tiêu đề hội thoại, danh sách file) được lưu ngay trên `project document` (dạng Array/Map) để frontend load cực nhanh khi mở ứng dụng.
 - **Tách biệt Chunks**: Dữ liệu Text Chunks (rất nặng) được đưa ra một Collection độc lập (`chunks`) kết nối qua `document_id`. Điều này giúp Project Document không vượt quá giới hạn 1MB của Firestore và tiết kiệm băng thông khi không cần trích xuất AI.
 
-## 11. Video Demo
+## 11. Screenshot
 
-Xem *[Video Demo Lab 2](https://www.youtube.com/watch?v=4zV947CgUe8)* để có cái nhìn tổng quan về dự án!
+### Trang Login
+![image](./images/login.png)
+
+### Trang Workspace
+![image](./images/workspace.png)
+
+### Trang Project
+![image](./images/project.png)
+
+### Trang Chat
+![image](./images/chat.png)
+
+## 12. Video Demo
+
+Xem *[Video Demo Lab 2](https://youtu.be/hYsbDsLJdRM)* để có cái nhìn tổng quan về dự án!
