@@ -1,0 +1,122 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=VT323&display=swap');
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: #fdf2f8;
+  color: #4a4a4a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+}
+
+body::selection {
+  background-color: rgba(255, 182, 193, 0.5);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #fbcfe8;
+  border-radius: 9999px;
+  transition: background-color 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #f9a8d4;
+}
+
+/* Typying Animation */
+.typing-dot {
+  height: 0.5rem;
+  width: 0.5rem;
+  background-color: #f9a8d4;
+  border-radius: 9999px;
+  display: inline-block;
+  margin-left: 0.125rem;
+  margin-right: 0.125rem;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); background-color: #bae6fd; /* pastel blue */ }
+}
+
+/* Glassmorphism / Pastel Panel */
+.glass-panel {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(24px);
+  border: 1px solid white;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+.message-in {
+  animation: messageIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes messageIn {
+  from { opacity: 0; transform: translateY(15px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Mascot floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Cute Pixel Utilities */
+.font-pixel {
+  font-family: 'VT323', monospace;
+}
+
+/* Ear Wiggle Animation */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+.hover-wiggle:hover {
+  animation: wiggle 0.3s ease-in-out infinite;
+}
+
+/* Paw Print Animation */
+@keyframes paw-press {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2) translateY(-2px); }
+}
+.group:hover .animate-paw {
+  animation: paw-press 0.4s ease-in-out infinite;
+}
+
+.shadow-cute {
+  box-shadow: 0 4px 0px 0px rgba(0,0,0,0.06);
+}
+.active\:shadow-cute-active:active {
+  box-shadow: 0 0px 0px 0px rgba(0,0,0,0.06);
+  transform: translateY(4px);
+}
+
+.image-pixelated {
+  image-rendering: pixelated;
+  image-rendering: -moz-pixelated;
+  image-rendering: crisp-edges;
+}

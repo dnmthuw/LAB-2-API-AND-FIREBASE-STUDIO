@@ -1,0 +1,25 @@
+# === Core Framework ===
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+python-multipart
+python-dotenv
+
+# === Firebase ===
+firebase-admin
+
+# === Data Processing ===
+numpy
+pypdf
+pymupdf
+scikit-learn
+
+# === HTTP ===
+requests
+
+# === Local AI Model (Offline-first) ===
+torch
+transformers
+sentence-transformers
+sentencepiece
